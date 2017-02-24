@@ -1,0 +1,101 @@
+Assignment 2.5
+
+1. Explain what is a cluster and what is a hadoop cluster
+
+	Cluster :	 It refers to the group of computers or systems which work together to perform
+		 	 a specific task.
+
+		  	A cluster is normally controlled in a seperate system which manages all other nodes 
+		  	which are connected in the cluster.
+
+		  	The nodes will work together to complete a task which is referred to as parallelism.
+
+			More than 100 computers can be connected in a cluster
+
+
+      Hadoop Cluster :   It runs the Hadoop open source distributed processing software on low-cost commodity 
+			computers.
+
+			A single machine in this cluster is meant as name node which is the master . 
+
+			Remaining machines in the cluster is datanodes which are slaves.
+
+			Hadoop cluster are specially used for their speed of data processing techniques. 
+
+			Hadoop cluster is highly scalable that makes it to adapt to any environment.
+
+			hadoop cluster are highly resistant to failures as redundant data is available in case
+			of failures.	
+
+			The cluster runs on low cost computers which makes it cost efficient.
+
+			Large Hadoop Clusters are arranged in several racks. 
+
+			Network traffic between different nodes in the same rack is much more desirable than 
+			network traffic across the racks. 
+
+
+
+2. Explain the components of Hadoop 1.x
+
+	*Name Node :
+			It is responsible for manage metadata about files distributed across the cluster.
+
+			It manages information like location of file blocks across cluster and it’s permission.
+
+			This process reads all the metadata from a file named fsimage and keeps it in memory
+
+			It periodically writes the changes in one file called edits as edit logs
+
+			This process is a heart of HDFS, if it is down HDFS is not accessible any more.
+
+
+	*Secondary Name Node :
+			This process can run on a master node  or can run on a separate node  depends 
+			on the size of the cluster
+
+			It manages the metadata for the Name Node. In the sense, it reads the information 
+			written in edit logs and creates an updated file of current cluster metadata
+
+			it transfers that file back to Name Node so that fsimage file can be updated
+
+			So, whenever Name Node daemon is restarted it can always find updated information 
+			in fsimage file
+
+
+	*Data Node :
+			There are many instances of this process running on various slave nodes which 
+			is also called as Data nodes.
+
+			It is responsible for storing the individual file blocks on the slave nodes 
+			in Hadoop cluster
+
+			Whenever required, this process handles the access to a data block by 
+			communicating with Name Node
+
+			This process periodically sends heart bits to Name Node to make Name Node aware 
+			that slave process is running
+
+
+	*Job Tracker : 
+			Only one instance of this process runs on a master node same as Name Node
+
+			The MapReduce job is submitted to Job Tracker first
+
+			Job Tracker checks for the location various file blocks used in MapReduce processing
+
+			it initiates the separate tasks on various Data Nodes by communicating with 
+			Task Tracker Daemons
+
+
+	*Task Tracker :
+			his process has multiple instances running on the slave nodes.
+
+			In most of the cases, Task Tracker initiates the task on the same 
+			node where there physical data block is present
+
+			It receives the job information from Job Tracker daemon and initiates 
+			a task on that slave node
+
+			Same as Data Node daemon, this process also periodically sends heart bits to 
+			Job Tracker to make Job Tracker aware that slave process is running
